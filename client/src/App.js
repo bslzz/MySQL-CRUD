@@ -1,41 +1,107 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const App = () => {
+  const [userInput, setUserInput] = useState({
+    name: '',
+    age: '',
+    country: '',
+    position: '',
+    wage: '',
+  });
+
+  const { name, age, country, position, wage } = userInput;
+
+  const changeHandler = (e) => {
+    setUserInput({ ...userInput, [e.target.name]: e.target.value });
+  };
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:5000/post', {
+        name,
+        age,
+        country,
+        position,
+        wage,
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-    <form class="row g-3">
-      <div class="col-md-6">
-        <label for="name" class="form-label">
+    <form onSubmit={submitForm} className="row g-3">
+      <div className="col-md-6">
+        <label htmlFor="name" className="form-label">
           Name
         </label>
-        <input type="text" class="form-control" id="name" />
+        <input
+          onChange={changeHandler}
+          name="name"
+          value={name}
+          type="text"
+          className="form-control"
+          id="name"
+        />
       </div>
-      <div class="col-md-6">
-        <label for="age" class="form-label">
+      <div className="col-md-6">
+        <label htmlFor="age" className="form-label">
           Age
         </label>
-        <input type="number" class="form-control" id="age" />
+        <input
+          onChange={changeHandler}
+          name="age"
+          value={age}
+          type="number"
+          className="form-control"
+          id="age"
+        />
       </div>
-      <div class="col-md-6">
-        <label for="country" class="form-label">
+      <div className="col-md-6">
+        <label htmlFor="country" className="form-label">
           Country
         </label>
-        <input type="text" class="form-control" id="country" />
+        <input
+          onChange={changeHandler}
+          name="country"
+          value={country}
+          type="text"
+          className="form-control"
+          id="country"
+        />
       </div>
-      <div class="col-md-6">
-        <label for="position" class="form-label">
+      <div className="col-md-6">
+        <label htmlFor="position" className="form-label">
           Position
         </label>
-        <input type="text" class="form-control" id="position" />
+        <input
+          onChange={changeHandler}
+          name="position"
+          value={position}
+          type="text"
+          className="form-control"
+          id="position"
+        />
       </div>
-      <div class="col-md-6">
-        <label for="wage" class="form-label">
+      <div className="col-md-6">
+        <label htmlFor="wage" className="form-label">
           Wage
         </label>
-        <input type="number" class="form-control" id="wage" />
+        <input
+          onChange={changeHandler}
+          name="wage"
+          value={wage}
+          type="number"
+          className="form-control"
+          id="wage"
+        />
       </div>
 
-      <div class="col-12">
-        <button type="submit" class="btn btn-primary">
+      <div className="col-12">
+        <button type="submit" className="btn btn-primary">
           Save
         </button>
       </div>
