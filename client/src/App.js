@@ -9,6 +9,7 @@ const App = () => {
     position: '',
     wage: '',
   });
+  const [dbData, setDbData] = useState([]);
 
   const { name, age, country, position, wage } = userInput;
 
@@ -32,80 +33,106 @@ const App = () => {
     }
   };
 
-  return (
-    <form onSubmit={submitForm} className="row g-3">
-      <div className="col-md-6">
-        <label htmlFor="name" className="form-label">
-          Name
-        </label>
-        <input
-          onChange={changeHandler}
-          name="name"
-          value={name}
-          type="text"
-          className="form-control"
-          id="name"
-        />
-      </div>
-      <div className="col-md-6">
-        <label htmlFor="age" className="form-label">
-          Age
-        </label>
-        <input
-          onChange={changeHandler}
-          name="age"
-          value={age}
-          type="number"
-          className="form-control"
-          id="age"
-        />
-      </div>
-      <div className="col-md-6">
-        <label htmlFor="country" className="form-label">
-          Country
-        </label>
-        <input
-          onChange={changeHandler}
-          name="country"
-          value={country}
-          type="text"
-          className="form-control"
-          id="country"
-        />
-      </div>
-      <div className="col-md-6">
-        <label htmlFor="position" className="form-label">
-          Position
-        </label>
-        <input
-          onChange={changeHandler}
-          name="position"
-          value={position}
-          type="text"
-          className="form-control"
-          id="position"
-        />
-      </div>
-      <div className="col-md-6">
-        <label htmlFor="wage" className="form-label">
-          Wage
-        </label>
-        <input
-          onChange={changeHandler}
-          name="wage"
-          value={wage}
-          type="number"
-          className="form-control"
-          id="wage"
-        />
-      </div>
+  const showData = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/get');
+      setDbData(res.data.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-      <div className="col-12">
-        <button type="submit" className="btn btn-primary">
-          Save
-        </button>
+  return (
+    <>
+      <form onSubmit={submitForm} className="row g-3">
+        <div className="col-md-6">
+          <label htmlFor="name" className="form-label">
+            Name
+          </label>
+          <input
+            onChange={changeHandler}
+            name="name"
+            value={name}
+            type="text"
+            className="form-control"
+            id="name"
+          />
+        </div>
+        <div className="col-md-6">
+          <label htmlFor="age" className="form-label">
+            Age
+          </label>
+          <input
+            onChange={changeHandler}
+            name="age"
+            value={age}
+            type="number"
+            className="form-control"
+            id="age"
+          />
+        </div>
+        <div className="col-md-6">
+          <label htmlFor="country" className="form-label">
+            Country
+          </label>
+          <input
+            onChange={changeHandler}
+            name="country"
+            value={country}
+            type="text"
+            className="form-control"
+            id="country"
+          />
+        </div>
+        <div className="col-md-6">
+          <label htmlFor="position" className="form-label">
+            Position
+          </label>
+          <input
+            onChange={changeHandler}
+            name="position"
+            value={position}
+            type="text"
+            className="form-control"
+            id="position"
+          />
+        </div>
+        <div className="col-md-6">
+          <label htmlFor="wage" className="form-label">
+            Wage
+          </label>
+          <input
+            onChange={changeHandler}
+            name="wage"
+            value={wage}
+            type="number"
+            className="form-control"
+            id="wage"
+          />
+        </div>
+
+        <div className="col-12">
+          <button type="submit" className="btn btn-primary">
+            Save
+          </button>
+        </div>
+      </form>
+      <hr />
+      <button onClick={showData}>Show Employees</button>
+      <div>
+        {dbData.map((item, key) => {
+          return (
+            <>
+              <h2>{item.name}</h2>
+              <h2>{item.age}</h2>
+              <h2>{item.country}</h2>
+              <h2>{item.position}</h2>
+              <h2>{item.wage}</h2>
+            </>
+          );
+        })}
       </div>
-    </form>
+    </>
   );
 };
 
