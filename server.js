@@ -1,21 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql');
+require('./db');
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
-const db = mysql.createConnection({
-  user: 'root',
-  host: 'localhost',
-  password: '',
-  database: 'employeeSystem',
-});
-db.connect((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('connected');
-  }
-});
+app.use('/', require('./routes/dataRoute'));
+
 app.listen(5000, () => console.log('Server running'));
